@@ -51,6 +51,7 @@ class SimpleIncludeProcessor : IncludeProcessor() {
 
 	override fun process(document: DocumentRuby,
 	                     reader: PreprocessorReader, target: String, attributes: MutableMap<String, Any>) {
+
 		val content = this.handlerFor(target)(target)
 		reader.push_include(content, target, target, 1, attributes)
 		this.log.debug("process($document , $reader , $target , $attributes) ")
