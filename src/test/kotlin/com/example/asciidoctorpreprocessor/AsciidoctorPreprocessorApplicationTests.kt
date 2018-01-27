@@ -20,13 +20,10 @@ class AsciidoctorPreprocessorApplicationTests {
 
 	private val log = LogFactory.getLog(javaClass)
 
-	private val cloudNativeJavaBookRoot = File("${System.getenv()["HOME"]}/cloud-native-java-book/")
-
 	private val input: String = BufferedReader(
 			InputStreamReader(FileSystemResource("/home/jlong/Desktop/misc/sample.adoc").inputStream))
 			.use { it.readLines() }
 			.joinToString(System.lineSeparator())
-
 
 	@Test
 	fun load() {
@@ -35,11 +32,11 @@ class AsciidoctorPreprocessorApplicationTests {
 					this.javaExtensionRegistry().includeProcessor(SimpleIncludeProcessor())
 				}
 		val document: Document = asciidoctor.load(this.input, mapOf("safe" to "unsafe", "parse" to "false"))
-		val convert = document.convert()
-		log.info("conversion: $convert")
-		log.info(document.toString())
-
-
+		document.sections.forEach {
+			it.blocks.forEach {
+				println(it.content)
+			}
+		}
 	}
 }
 
@@ -47,7 +44,7 @@ class AsciidoctorPreprocessorApplicationTests {
 class SimpleIncludeProcessor : IncludeProcessor() {
 
 	private val template = RestTemplateBuilder().build()
-
+	private val cloudNativeJavaBookRoot = File("${System.getenv()["HOME"]}/cloud-native-java-book/")
 	private val log = LogFactory.getLog(javaClass)
 
 	override fun process(document: DocumentRuby,
@@ -58,7 +55,7 @@ class SimpleIncludeProcessor : IncludeProcessor() {
 	}
 
 	private val handlers: Map<(String) -> Boolean, (String) -> String> =
-			mutableMapOf({ target: String -> target.contains("snippets") } to { target: String ->
+			mapOf({ target: String -> target.contains("snippets") } to { target: String ->
 				/* todo have this actually read the file from the file system */ target })
 
 	private fun handlerFor(target: String): (String) -> String =
@@ -70,12 +67,12 @@ class SimpleIncludeProcessor : IncludeProcessor() {
 	private fun targetToCNJGitHubUrl(target: String) =
 			target.replace("//", "")
 					.let {
-						val withoutDot = if (it.startsWith(".")) {
+						val dividedBySlash = if (it.startsWith(".")) {
 							it.substring(1)
 						} else {
 							it
 						}
-						val dividedBySlash = withoutDot.split('/')
+						.split('/')
 						val root = dividedBySlash[0]
 						val rest = dividedBySlash.slice(IntRange(1, dividedBySlash.size - 1)).joinToString("/")
 						"https://raw.githubusercontent.com/cloud-native-java/$root/master/$rest"
