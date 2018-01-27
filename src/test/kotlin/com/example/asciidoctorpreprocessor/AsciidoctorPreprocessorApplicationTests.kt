@@ -6,6 +6,7 @@ import org.asciidoctor.ast.Document
 import org.asciidoctor.ast.DocumentRuby
 import org.asciidoctor.extension.IncludeProcessor
 import org.asciidoctor.extension.PreprocessorReader
+import org.jruby.RubyObject
 import org.junit.Test
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.core.io.FileSystemResource
@@ -32,9 +33,10 @@ class AsciidoctorPreprocessorApplicationTests {
 					this.javaExtensionRegistry().includeProcessor(SimpleIncludeProcessor())
 				}
 		val document: Document = asciidoctor.load(this.input, mapOf("safe" to "unsafe", "parse" to "false"))
-		document.sections.forEach {
-			it.blocks.forEach {
-				println(it.content)
+		document.sections.forEach { roAny: Any ->
+			if (roAny is RubyObject) {
+				val ro = roAny as RubyObject
+				log.info(ro)
 			}
 		}
 	}
@@ -56,7 +58,8 @@ class SimpleIncludeProcessor : IncludeProcessor() {
 
 	private val handlers: Map<(String) -> Boolean, (String) -> String> =
 			mapOf({ target: String -> target.contains("snippets") } to { target: String ->
-				/* todo have this actually read the file from the file system */ target })
+				/* todo have this actually read the file from the file system */ target
+			})
 
 	private fun handlerFor(target: String): (String) -> String =
 			this.handlers.entries.firstOrNull { entry -> entry.key(target) }?.value ?: {
@@ -72,7 +75,7 @@ class SimpleIncludeProcessor : IncludeProcessor() {
 						} else {
 							it
 						}
-						.split('/')
+								.split('/')
 						val root = dividedBySlash[0]
 						val rest = dividedBySlash.slice(IntRange(1, dividedBySlash.size - 1)).joinToString("/")
 						"https://raw.githubusercontent.com/cloud-native-java/$root/master/$rest"
