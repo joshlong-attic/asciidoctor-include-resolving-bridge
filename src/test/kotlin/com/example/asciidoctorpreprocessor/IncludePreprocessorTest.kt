@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.ClassPathResource
 import org.springframework.test.context.junit4.SpringRunner
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
 import java.io.InputStreamReader
 
 /**
@@ -21,7 +18,7 @@ class IncludePreprocessorTest {
 
 	private val log = LogFactory.getLog(javaClass)
 
-	val sample =  InputStreamReader(ClassPathResource("/sample.adoc").inputStream).readText()
+	val sample = InputStreamReader(ClassPathResource("/sample.adoc").inputStream).readText()
 
 	@Autowired
 	val includePreprocessor: IncludePreprocessor? = null
