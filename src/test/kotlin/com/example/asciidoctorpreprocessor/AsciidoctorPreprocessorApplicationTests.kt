@@ -15,33 +15,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
-// take an Asciidoctor input, manually resolve
-// the includes, and emit the pre-processed file.
-class AsciidoctorPreprocessorApplicationTests {
-
-	private val log = LogFactory.getLog(javaClass)
-
-	private val input: String = BufferedReader(
-			InputStreamReader(FileSystemResource("/home/jlong/Desktop/misc/sample.adoc").inputStream))
-			.use { it.readLines() }
-			.joinToString(System.lineSeparator())
-
-	@Test
-	fun load() {
-		val asciidoctor: Asciidoctor = Asciidoctor.Factory.create()
-				.apply {
-					this.javaExtensionRegistry().includeProcessor(SimpleIncludeProcessor())
-				}
-		val document: Document = asciidoctor.load(this.input, mapOf("safe" to "unsafe", "parse" to "false"))
-		document.sections.forEach { roAny: Any ->
-			if (roAny is RubyObject) {
-				val ro = roAny as RubyObject
-				log.info(ro)
-			}
-		}
-	}
-}
-
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SimpleIncludeProcessor : IncludeProcessor() {
 
@@ -84,4 +57,31 @@ class SimpleIncludeProcessor : IncludeProcessor() {
 
 	override fun handles(target: String?): Boolean = true
 
+}
+
+// take an Asciidoctor input, manually resolve
+// the includes, and emit the pre-processed file.
+class AsciidoctorPreprocessorApplicationTests {
+
+	private val log = LogFactory.getLog(javaClass)
+
+	private val input: String = BufferedReader(
+			InputStreamReader(FileSystemResource("/home/jlong/Desktop/misc/sample.adoc").inputStream))
+			.use { it.readLines() }
+			.joinToString(System.lineSeparator())
+
+	@Test
+	fun load() {
+		val asciidoctor: Asciidoctor = Asciidoctor.Factory.create()
+				.apply {
+					this.javaExtensionRegistry().includeProcessor(SimpleIncludeProcessor())
+				}
+		val document: Document = asciidoctor.load(this.input, mapOf("safe" to "unsafe", "parse" to "false"))
+		document.sections.forEach { roAny: Any ->
+			if (roAny is RubyObject) {
+				val ro = roAny as RubyObject
+				log.info(ro)
+			}
+		}
+	}
 }

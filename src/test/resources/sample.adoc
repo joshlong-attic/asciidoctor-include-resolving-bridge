@@ -1,0 +1,447 @@
+:book-root: ./
+
+[[rest]]
+== WOW. Just.. Wow.
+
+test test test
+
+test and stuff and things
+
+=== A headline
+
+test test test
+
+test and stuff and things
+
+=== Simple REST APIs with Spring MVC
+
+
+test test test
+
+test and stuff and things
+
+[[example0601]]
+.Our first @RestController, CustomerRestController
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/CustomerRestController.java[]
+----
+<1> test test
+<2> test test test
+<3> test test test
+<4> test test test
+<5> test test test
+<6> test test test test
+====
+
+test test test
+
+test and stuff and things
+
+TIP: Spring MVC also supports HTTP method-specific annotations like `@GetMapping`, `@PostMapping`, etc. These work just like `@RequestMapping`, though they imply the HTTP method. You can use them interchangeably if your endpoint doesn't need to support more than one HTTP method.((("HTTP", "Spring MVC support for method-specific annotations")))((("REST APIs", "simple APIs with Spring MVC", startref="ix_RESTSpMVC")))((("Spring MVC", "REST APIs with", startref="ix_SprMVCREST")))
+
+=== Test Test
+
+test test test
+
+test and stuff and things
+
+==== Test Test
+
+test test test
+
+test and stuff and things
+
+[[ex0602]]
+.Test test test
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/CustomerProfilePhotoRestController.java[]
+----
+<1> test test ... maybe... test
+<2> test
+<3> test and stuff and things
+<4> another test
+====
+
+Test this and test that
+
+test this and that and so on
+
+TIP: test that tip, too
+
+A test
+
+Another test
+
+Another test still
+
+====  Test test test
+
+Test test test
+
+[[example0603]]
+.Another test
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/protos/customer.proto[]
+----
+<1> test test ... maybe... test
+<2> test
+<3> test and stuff and things
+<4> another test
+====
+
+
+Test
+
+Test (<<example0604>>).
+
+[[example0604]]
+.A script to generate the required Java, Ruby, and Python clients
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/protos/gen.sh[]
+----
+====
+
+I love this test. it's more of a test than not.
+
+[[example0605]]
+.Test caption
+====
+[source,python,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/python/client.py[]
+----
+====
+
+<<example0606>> shows howe we test in action
+
+[[example0606]]
+.Have you ever seen this test?
+====
+[source,ruby,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/ruby/client.rb[]
+----
+====
+
+Im all for building things that can be treated as a test with tests that i test
+
+[[example0607]]
+.A REST service that leverages content-negotiation to serve content with the media type application/x-protobuf
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/CustomerProtobufRestController.java[]
+----
+====
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+[[example0608]]
+.Register a custom HttpMessageConverter implementation to convert HTTP messages to application/x-protobuf and back
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/GoogleProtocolBuffersConfiguration.java[]
+----
+====
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+=== Error Handling
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+[[example0609]]
+.Centralized error handling with a @ControllerAdvice
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/CustomerControllerAdvice.java[]
+----
+<1> There's no built-in media type for `application/vnd.error`, so we create our own.
+<2> We have two handlers in this class, and they both respond to possible exceptions thrown in other components. This handler, specifically, responds to our  `CustomerNotFoundException`, which in turn just extends `RuntimeException`.
+<3> The `error` method builds up a `ResponseEntity` containing a `VndErrors` payload and conveys the media type and status code desired. Simple _and_ useful.((("error handling in REST APIs", startref="ix_errREST")))((("Spring MVC", "REST APIs with", "error handling", startref="ix_SprMVCRESTerr")))((("REST APIs", "error handling", startref="ix_RESTerr")))
+====
+
+[[hypermedia,Hypermedia]]
+=== Hypermedia
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+[[example0610]]
+.Loading a document's stylesheet
+====
+[source,html]
+----
+<link rel="stylesheet" href="bootstrap.css">
+----
+====
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+NOTE: There are other competing standards for hypermedia representation. HAL just happens to be pretty popular, and useful.
+
+[[example0611]]
+.The earlier Customer REST resource described with HAL
+====
+[source,json,indent=0]
+----
+include::snippets/rest-customer-hypermedia-json.txt[]
+----
+====
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+
+[[figure0601]]
+.The default configured HAL browser Actuator endpoint
+image::images/clnj_0601.png[the HAL browser]
+
+http://spring.io/projects/spring-hateoas[Spring HATEOAS] sits on top of Spring MVC and provides the necessary plumbing to consume and describe resources in terms of payloads and their related links.((("resources", "Spring HATEOAS resources")))((("Spring HATEOAS", "Resource objects, payload and related links"))) It depends on Spring MVC; instead of consuming and producing resources of type `T`, you consume and produce type `org.springframework.hateoas.Resource<T>` resources, for single objects, or `org.springframework.hateoas.Resources<T>`, for collections of objects.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+[[example0612]]
+.A revised CustomerHypermediaRestController
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/CustomerHypermediaRestController.java[]
+----
+<1> Responses are sent not as plain ol' `application/json`, but as `application/hal+json`.
+<2> We've injected a custom `ResourceAssembler` implementation to simplify conversion from `T` to `Resource<T>`.
+<3> The root endpoint simply returns a collection of `Link` elements that act as a sort of menu: it should be possible to start at `/` and navigate without any _a priori_ knowledge.
+<4> The `GET` method on the `customers` collection is procedurally the same as before, but we've added a Spring HATEOAS `Link` to the resource. The `Link` is constructed using Spring MVC's handy `ServletUriComponentsBuilder`.
+====
+
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+[[example0613]]
+.The CustomerResourceAssembler provides a default set of links for a given Customer entity
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/CustomerResourceAssembler.java[]
+----
+====
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+
+==== Media Type and Schema
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+=== API Versioning
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+[[example0614]]
+.The VersionedRestController demonstrates a few approaches to versioning REST APIs
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/main/java/demo/VersionedRestController.java[]
+----
+<1> This approach encodes version in the URL; Spring MVC will automatically map URL parameters into instances of the corresponding `ApiVersion` enum. Test it using `curl http://localhost:8080/api/V2/hi`.
+<2> This approach automatically converts request headers into instances of the corresponding `ApiVersion` enum. Test it using `curl -H "X-API-Version:V1" http://localhost:8080/api/hi`.
+<3> This controller handler handles requests for the `application/vnd.bootiful.demo-v1+json` media-type. Test it using `curl -H "Accept:application/vnd.bootiful.demo-v1+json" http://localhost:8080/api/hi`.
+<4> This controller handler handles requests for the `application/vnd.bootiful.demo-v2+json` media-type. Test it using `curl -H "Accept:application/vnd.bootiful.demo-v2+json" http://localhost:8080/api/hi`.
+====
+
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing.
+
+[[example0615]]
+.ApiDocumentation.java uses the Spring MVC test API to exercise an API
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-basics/src/test/java/demo/ApiDocumentation.java[]
+----
+<1> Test rules support cross-cutting concerns from the tests they're configured on. In this case, the `RestDocumentation` rule will emit Asciidoctor snippets to the `target/generated-snippets` directory when the tests are run.
+<2> The `documentationConfiguration` static method simply registers the `RestDocumentation` object with the `MockMvc` object, which the tests use to exercise the API.
+<3> The string passed to the `document` method, `error-example`, defines the logical identifier for the automatically generated documentation for this test. In this case, the generated documentation will _also_ live under a folder named `error-example`, in which we'll find `.adoc` files like `curl-request.adoc`, `http-request.adoc`, `http-response.adoc`, etc. Use these various generated snippets as includes in the creation of a larger Asciidoctor document.
+====
+
+Test all the things. I mean it. dont stop testing.
+
+[[example0616]]
+.Including *Documentation.java in the Maven Surefire plug-in
+====
+[source,java,indent=0]
+----
+include::snippets/rest-spring-restdocs-surefire-plugin-config.txt[]
+----
+====
+
+Test all the things. I mean it. dont stop testing.
+
+[[example0617]]
+.The automatically generated Asciidoctor snippets after running the tests
+====
+[source,shell,indent=0]
+----
+include::snippets/rest-spring-restdocs-generated-adocs.txt[]
+----
+====
+
+Test all the things. I mean it. dont stop testing.
+
+[[example0618]]
+.The Asciidoctor Maven plug-in
+====
+[source,xml,indent=0]
+----
+include::snippets/rest-spring-restdocs-asciidoctor-maven-plugin.txt[]
+----
+<1> As configured, the application will look in the `src/main/resources` directory for any valid `.adoc` files and then convert  them to `.pdf` and `.html`.
+<2> To simplify resolving the snippets and avoid repetition in the documentation itself, expose an attribute that resolves to the `generated-snippets` directory.
+====
+
+Test all the things. I mean it. dont stop testing. Test all the things. I mean it. dont stop testing.
+
+Test all the things. I mean it. dont stop testing.
+
+[[example0619]]
+.Configuring the Maven resources plug-in to include the generated documentation in Spring Boot's static directory so that it's available under http://localhost:8080/docs
+====
+[source,xml,indent=0]
+----
+include::snippets/rest-spring-restdocs-copy-docs-to-target.txt[]
+----
+====
+
+Test all the things. I mean it. dont stop testing.
+
+=== The Client Side
+
+Lots of stuff going on here. I mean, really.
+
+==== REST Clients for Ad Hoc Exploration and Interaction
+
+A test paragraph is long as it is delightful.
+
+Firefox's Poster plug-in:: This freely available Firefox plug-in is a handy utility that lives in ((("Firefox Poster plug-in")))the bottom right corner of the browser as a little yellow icon.((("Poster plug-in (Firefox)"))) Click it and you'll be presented with a dialog where you can describe and execute HTTP requests. It provides easy features for handling things like file uploads and content negotiation (see <<figure0602>>).
+
+[[figure0602]]
+.The Firefox Poster plug-in provides a lot of bang for the buck
+image::images/clnj_0602.png[the Firefox Poster plug-in in action]
+
+`curl`:: The venerable `curl` command ((("curl utility", "supporting HTTP requests")))is a command-line utility that supports any manner of HTTP requests with convenient options for sending HTTP headers, custom request bodies, and more (<<figure0603>>).
+
+[[figure0603]]
+.A script that uses curl
+image::images/clnj_0603.png[the venerable `curl` command line utility]
+
+TIP: The authors have become fans of https://httpie.org[HTTPie], too.
+
+Another test
+
+[[figure0604]]
+.The Google Chrome Advanced HTTP Client
+image::images/clnj_0604.png[using the Google Chrome Advanced HTTP Client plugin]
+
+A bold word
+
+[[figure0605]]
+.Using the Developer Tools in Google Chrome to get a curl invocation that replays the HTTP request—very handy!
+image::images/clnj_0605.png[this is very handy!]
+
+A test
+
+[[figure0606]]
+.The PostMan HTTP Client
+image::images/clnj_0606.png[PostMan]
+
+==== The Test
+
+Wow. a test paragraph.
+
+[[example0620]]
+.Configure a RestTemplate
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-client/src/main/java/actors/RestTemplateConfiguration.java[]
+----
+<1> A thing and a test and other stuff
+====
+
+The test test
+
+[[example0621]]
+.Use the RestTemplate
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-client/src/test/java/actors/RestTemplateTest.java[]
+----
+<1> The `RestTemplate` provides all the convenience methods you'd expect, supporting common HTTP verbs like `POST`.
+<2> You can ask the `RestTemplate` to return responses converted to an appropriate representation. Here, we're asking for a Jackson `JsonNode` return value. The `JsonNode` lets you interact with the JSON as you might an XML DOM node.
+<3> The conversion applies to domain objects, where possible. Here, we've asked for the JSON to be mapped (also using Jackson) to a `Movie` entity.
+<4> The `ResponseEntity<T>` return value is a wrapper for the response payload, converted as described before, and headers and status code information from the HTTP response.
+<5> The REST API uses Spring HATEOAS's `Resources<T>` object to serve collections of `Resource<T>` instances, which in turn wrap payloads and provide links.((("resources", "Spring HATEOAS resources", "Resources&lt;T&gt; object")))((("generic types", "retaining type parameters"))) In previous examples, we've signaled the return value by providing a `.class` literal, but Java provides no way to capture something like `Resources<Movie>.class` using class literals because the generic information is burned away at compile time, thanks to Java's type erasure. The only way to retain generic parameter information is to bake it into a type hierarchy through subclassing.((("ParameterizedTypeReference")))((("type token pattern"))) This pattern, called the _type token_ pattern, is supported with Spring's `ParameterizedTypeReference` type. `ParameterizedTypeReference` is an abstract type, and so must be subclassed. Here, what seems like an instance variable, `ptr`, is actually an anonymous subclass that can, at runtime, answer the question: "what's your generic parameter?" with "`Resources<Movie>`." The `RestTemplate` can use that to bind the returned JSON values correctly.
+====
+
+
+Wow another test omg
+
+TIP: Make this code a test
+
+[[example0622]]
+.Configure a Traverson client using a configured RestTemplate
+====
+[source,java,indent=0,subs=+macros]
+----
+include::{book-root}/rest/rest-client/src/main/java/actors/TraversonConfiguration.java[]
+----
+<1> A thing and stuff
+====
+
+Tets test test
+
+[[ex0623]]
+.Use the Traverson client with the RestTemplate
+====
+[source,java,indent=0]
+----
+include::{book-root}/rest/rest-client/src/test/java/actors/TraversonTest.java[]
+----
+<1> Test
+====
+
+Tets test test
+
+=== Summary
+
+Tets test test
